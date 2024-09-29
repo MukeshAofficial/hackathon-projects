@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Chatbot</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            height: 80%;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .sidebar {
+            width: 30%;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.7);
+            position: relative;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .sidebar .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #4ecca3;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .sidebar p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .chat-container {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            background: rgba(30, 30, 30, 0.9);
+            padding: 10px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        .chat-header {
+            background-color: #4ecca3;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 26px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #282c34;
+            border-radius: 0 0 10px 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in;
+        }
+
+        .chat-box .message {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 8px;
+            max-width: 75%;
+            animation: slideInMessage 0.5s ease-in-out;
+            position: relative;
+        }
+
+        @keyframes slideInMessage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-box .user {
+            background-color: #4ecca3;
+            align-self: flex-end;
+            color: white;
+            border-top-left-radius: 10px;
+        }
+
+        .chat-box .bot {
+            background-color: #e0e0e0;
+            align-self: flex-start;
+            color: black;
+            border-top-right-radius: 10px;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 2px solid #4ecca3;
+            background: #1c1c1c;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid #4ecca3;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .chat-input button {
+            padding: 12px 18px;
+            border: none;
+            background-color: #4ecca3;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background-color: #36b58b;
+        }
+
+        /* Add media queries for responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .sidebar, .chat-container {
+                width: 100%;
+                height: auto;
+            }
+
+            .chat-header {
+                font-size: 24px;
+            }
+
+            .chat-input input, .chat-input button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">Scholar AI Chatbot</div>
+            <p>Your one-stop solution for personalized study plans, educational Q&A, and expert guidance to ace your academic journey.
+</p>
+        </div>
+        <div class="chat-container">
+            <div class="chat-header">
+                Scholar AI Chatbot
+            </div>
+            <div class="chat-box" id="chat-box">
+                <!-- Messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Type your message...">
+                <button id="send-button">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('send-button').addEventListener('click', function() {
+            const userInput = document.getElementById('user-input').value;
+            if (userInput.trim() !== '') {
+                addMessage('user', userInput);
+                document.getElementById('user-input').value = '';
+                fetch('/get_response', {
+                    method: 'POST',
+                    body: JSON.stringify({ message: userInput }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    addMessage('bot', data.response);
+                });
+            }
+        });
+
+        function addMessage(sender, text) {
+            const chatBox = document.getElementById('chat-box');
+            const message = document.createElement('div');
+            message.classList.add('message', sender);
+            message.textContent = text;
+            chatBox.appendChild(message);
+            chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the bottom
+        }
+
+        // Allow pressing Enter to send a message
+        document.getElementById('user-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                document.getElementById('send-button').click();
+            }
+        });
+    </script>
+</body>
+</html>

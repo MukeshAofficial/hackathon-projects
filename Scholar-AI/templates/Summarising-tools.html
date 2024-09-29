@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summarizing Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #000;
+            background-image: linear-gradient(120deg, #a18cd1 0%, #fbc2eb 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            flex-direction: column;
+        }
+
+        .main-title {
+            color: #000;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+        }
+
+        .tool {
+            background-color: rgba(34, 34, 34, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 30%;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        form {
+            margin-top: 20px;
+            animation: fadeInUp 1s ease-in-out;
+            width: 100%;
+        }
+
+        input[type="text"], input[type="url"], input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            animation: inputGlow 1s ease-in-out infinite alternate;
+        }
+
+        input[type="submit"], button[type="submit"], label {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        input[type="submit"]:hover, button[type="submit"]:hover, label:hover {
+            background-color: #45a049;
+        }
+
+        label {
+            background-color: #3498db;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        label:hover {
+            background-color: #2980b9;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes inputGlow {
+            from { box-shadow: 0 0 5px #4CAF50; }
+            to { box-shadow: 0 0 20px #4CAF50; }
+        }
+
+        .input {
+            display: none;
+        }
+
+.labelFile svg {
+    width: 60px;   /* Adjust the icon size if needed */
+    height: 60px;
+    margin-bottom: 10px;
+    fill: #404040; /* Removed blue fill */
+    position: relative; /* Relative positioning for additional control */
+    left: 1px; /* Adjust this value to move the icon left or right */
+    top: 0px; /* Adjust this value to move the icon up or down */
+}
+
+.labelFile p {
+    margin: 0;
+    font-size: 14px;
+}
+
+
+        button[type="submit"] {
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #219d46;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">Summarizing Tools</h1>
+    <div class="main-container">
+        <!-- Roadmap Generator (Left) -->
+        <div class="tool">
+            <h2>Generate RoadMap</h2>
+            <form action="/road" method="post">
+                <input type="text" id="prompt" name="prompt" placeholder="Enter Title">
+                <input type="submit" value="Generate RoadMap">
+            </form>
+        </div>
+
+        <!-- Note Summarizer (Center) -->
+        <div class="tool">
+            <h2>Note Summarizer</h2>
+            <form method="POST" enctype="multipart/form-data" action="/note">
+                <label for="Note_file" class="labelFile">
+                    <span>
+                        <svg viewBox="0 0 184.69 184.69" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <path d="M149.968,50.186c-8.017-14.308-23.796-22.515-40.717-19.813C102.609,16.43,88.713,7.576,73.087,7.576c-22.117,0-40.112,17.994-40.112,40.115c0,0.913,0.036,1.854,0.118,2.834C14.004,54.875,0,72.11,0,91.959c0,23.456,19.082,42.535,42.538,42.535h33.623v-7.025H42.538c-19.583,0-35.509-15.929-35.509-35.509c0-17.526,13.084-32.621,30.442-35.105c0.931-0.132,1.768-0.633,2.326-1.392c0.555-0.755,0.795-1.704,0.644-2.63c-0.297-1.904-0.447-3.582-0.447-5.139c0-18.249,14.852-33.094,33.094-33.094c13.703,0,25.789,8.26,30.803,21.04c0.63,1.621,2.351,2.534,4.058,2.14c15.425-3.568,29.919,3.883,36.604,17.168c0.508,1.027,1.503,1.736,2.641,1.897c17.368,2.473,30.481,17.569,30.481,35.112c0,19.58-15.937,35.509-35.52,35.509H97.391v7.025h44.761c23.459,0,42.538-19.079,42.538-42.535C184.69,71.545,169.884,53.901,149.968,50.186z"></path>
+                                <path d="M108.586,90.201c1.406-1.403,1.406-3.672,0-5.075L88.541,65.078c-0.701-0.698-1.614-1.045-2.534-1.045l-0.064,0.011c-0.018,0-0.036-0.011-0.054-0.011c-0.931,0-1.85,0.361-2.534,1.045L63.31,85.127c-1.403,1.403-1.403,3.672,0,5.075c1.403,1.406,3.672,1.406,5.075,0L82.296,76.29v97.227c0,1.99,1.603,3.597,3.593,3.597c1.979,0,3.59-1.607,3.59-3.597V76.165l14.033,14.036C104.91,91.608,107.183,91.608,108.586,90.201z"></path>
+                            </g>
+                        </svg>
+                    </span>
+                    <p>Drag and drop your file here or click to select a file!</p>
+                </label>
+                <input class="input" type="file" id="Note_file" name="Note_file" accept=".txt">
+                <button type="submit"><i class="fas fa-upload"></i> Upload</button>
+            </form>
+        </div>
+
+        <!-- Web Summary (Right) -->
+        <div class="tool">
+            <h2>Generate Web Summary</h2>
+            <form action="/web_summary" method="post">
+                <input type="url" id="url" name="url" placeholder="Enter URL" required>
+                <button type="submit" class="submit-button">Generate Summary</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            background-color: #000000; /* Black background */
+            color: white; /* White text */
+            font-family: Arial, sans-serif; /* Choose your preferred font */
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.5);
+        }
+
+        .sidebar h2 {
+            color: #ecf0f1;
+            margin-bottom: 20px;
+        }
+
+        .command {
+            margin-bottom: 15px;
+        }
+
+        .command p {
+            margin: 5px 0;
+            color: #bdc3c7; /* Lighter text for descriptions */
+        }
+
+        /* Main content area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            height: 96px;
+            width: 96px;
+            animation: rotate_3922 1.2s linear infinite;
+            background-color: #9b59b6;
+            background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
+            transform: translate(-50%, -50%);
+        }
+
+        .container span {
+            position: absolute;
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+            background-color: #9b59b6;
+            background-image: linear-gradient(#9b59b6, #84cdfa, #5ad1cd);
+        }
+
+        .container span:nth-of-type(1) {
+            filter: blur(5px);
+        }
+
+        .container span:nth-of-type(2) {
+            filter: blur(10px);
+        }
+
+        .container span:nth-of-type(3) {
+            filter: blur(25px);
+        }
+
+        .container span:nth-of-type(4) {
+            filter: blur(50px);
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background-color: #fff;
+            border: solid 5px #ffffff;
+            border-radius: 50%;
+        }
+
+        @keyframes rotate_3922 {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        h1 {
+            position: relative;
+            left: 0; /* Centering title with respect to container */
+        }
+
+        p {
+            font-size: 24px; /* Adjust font size as needed */
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Voice Commands</h2>
+        <div class="command">
+            <strong>Go to GPT:</strong>
+            <p>Access the GPT interface ask an question</p>
+        </div>
+        <div class="command">
+            <strong>Go to Chatbot:</strong>
+            <p>Open the chatbot feature.</p>
+        </div>
+       
+        <div class="command">
+            <strong>Go to Roadmap:</strong>
+            <p>View or create a roadmap.</p>
+        </div>
+        <div class="command">
+            <strong>Go to Transcription:</strong>
+            <p>Access the speech transcription tool.</p>
+        </div>
+        <div class="command">
+            <strong>Go to Web Summary:</strong>
+            <p>Summarize web pages.</p>
+        </div>
+        <div class="command">
+            <strong>Go to AI Quiz:</strong>
+            <p>Take an AI-related quiz.</p>
+        </div>
+        
+        <div class="command">
+            <strong>Go to Scan:</strong>
+            <p>Initiate a scanning process.</p>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h1>Listening.....</h1>
+        <div class="container">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <script>
+        // Check if browser supports speech recognition
+        if ('webkitSpeechRecognition' in window) {
+            // Create speech recognition object
+            var recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.lang = 'en-US';
+
+            recognition.onresult = function(event) {
+                for (var i = event.resultIndex; i < event.results.length; i++) {
+                    var transcript = event.results[i][0].transcript.toLowerCase(); // Convert to lowercase for case-insensitive comparison
+                    console.log('You said: ', transcript);
+                    if (transcript.includes('go to gpt')) {
+                        window.location.href = '/gpt';
+                    } else if (transcript.includes('go to chatbot')) { 
+                        window.location.href = '/chatbot';
+                    } else if (transcript.includes('go to timer')) { 
+                        window.location.href = '/timer';
+                    } else if (transcript.includes('go to to do list')) { 
+                        window.location.href = '/to-do-list';
+                    } else if (transcript.includes('go to roadmap')) { 
+                        window.location.href = '/roadmap';
+                    } else if (transcript.includes('go to transcription')) { 
+                        window.location.href = '/speech';
+                    } else if (transcript.includes('go to web summary')) { 
+                        window.location.href = '/web';
+                    } else if (transcript.includes('go to ai quiz')) { 
+                        window.location.href = '/quiz';
+                    } else if (transcript.includes('go to grade')) { 
+                        window.location.href = '/mark';
+                    } else if (transcript.includes('go to scan')) { 
+                        window.location.href = '/scan';
+                    }
+                }
+            };
+
+            recognition.start();
+        } else {
+            console.log('Speech recognition not supported');
+        }
+    </script>
+</body>
+</html>

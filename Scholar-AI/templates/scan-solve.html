@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan image</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            font-size: 36px;
+            margin: 20px;
+        }
+        input[type="file"] {
+            display: none; /* Hide the default file input */
+        }
+        label {
+            cursor: pointer; /* Make label clickable */
+        }
+        .upload-icon {
+            width: 60px;
+            height: 60px;
+            fill: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scan</h1>
+    <form id="upload-form">
+        <label for="file-upload">
+            <svg xml:space="preserve" viewBox="0 0 184.69 184.69" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="upload-icon">
+                <g>
+                    <g>
+                        <g>
+                            <path d="M92.345,18.538c-41.585,0-75.468,33.883-75.468,75.468s33.883,75.468,75.468,75.468c41.585,0,75.468-33.883,75.468-75.468S133.93,18.538,92.345,18.538z M92.345,152.936c-33.301,0-60.559-27.258-60.559-60.559s27.258-60.559,60.559-60.559c33.301,0,60.559,27.258,60.559,60.559S125.646,152.936,92.345,152.936z"/>
+                            <path d="M108.145,78.885c-4.427-4.428-11.646-4.428-16.073,0L83.35,90.066V66.881c0-6.46-5.246-11.706-11.706-11.706s-11.706,5.246-11.706,11.706v23.185c0,4.428,1.732,8.537,4.85,11.652c4.428,4.428,11.646,4.428,16.073,0l8.172-8.172l8.173,8.172c4.427,4.428,11.646,4.428,16.073,0c4.428-4.428,4.428-11.646,0-16.073L108.145,78.885z"/>
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </label>
+        <input type="file" id="file-upload" accept="image/*" required>
+        <button type="submit" style="margin-top: 20px; padding: 10px 20px; background-color: blue; color: white; border: none; border-radius: 5px; cursor: pointer;">Upload</button>
+    </form>
+
+    <script>
+        document.getElementById('upload-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting the default way
+            const fileInput = document.getElementById('file-upload');
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onloadend = function() {
+                const dataURL = reader.result; // Base64 string of the uploaded image
+                // Send the data URL to the server
+                fetch('/ansupload', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ image: dataURL })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Image uploaded successfully');
+                        // Redirect to the result page
+                        window.location.href = '/ans-results';
+                    } else {
+                        console.error('Image upload failed:', response.statusText);
+                    }
+                })
+                .catch(error => console.error('Error uploading image:', error));
+            };
+
+            if (file) {
+                reader.readAsDataURL(file); // Convert the file to a base64 URL
+            }
+        });
+    </script>
+</body>
+</html>

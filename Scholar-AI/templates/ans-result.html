@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan-solution</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    h1 {
+      text-align: center;
+      color:#36b58b;
+      font-size: 36px;
+      text-shadow: 2px 2px 4px #000000;
+    }
+    pre {
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scan-solution</h1>
+
+  <!-- Display the recipe content -->
+  <pre>{{ recipe }}</pre>
+
+  <!-- Audio element to play the generated audio -->
+  <audio autoplay controls>
+    <source src="{{ url_for('static', filename=audio) }}" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+</body>
+</html>

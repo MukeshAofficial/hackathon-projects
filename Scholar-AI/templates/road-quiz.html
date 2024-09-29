@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Topic Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #181818;
+            color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            animation: slideInBottom 1.5s ease-in-out;
+        
+        }
+
+        .sidebar, .right-sidebar {
+            width: 20%;
+            background-color: #252526;
+            color: #d3d3d3;
+            padding: 20px;
+            border-radius: 10px;
+            animation: slideInLeft 1.5s ease-in-out;
+        }
+
+        .main-content {
+            width: 55%;
+            background-color: #202225;
+            padding: 20px;
+            border-radius: 10px;
+            animation: slideInTop 1.5s ease-in-out;
+
+        }
+
+        h1, h3 {
+            color: #00d1b2;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+          
+
+        }
+
+        .video-section iframe {
+            width: 100%;
+            height: 350px;
+            border-radius: 10px;
+            transition: transform 0.3s ease-in-out;
+
+        }
+
+        iframe:hover {
+    transform: scale(1.05);
+}
+        input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #00d1b2;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .quiz-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #202225;
+            animation: slideInRight 1.5s ease-in-out;
+        }
+        .quiz-list li:hover {
+    background-color: #00d1b2;
+    color: #181818;
+    cursor: pointer;
+    transform: scale(1.05);
+}
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInTop {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInBottom {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes glowText {
+    0% {
+        text-shadow: 0 0 5px #00d1b2, 0 0 10px #00d1b2, 0 0 15px #00d1b2, 0 0 20px #00d1b2;
+    }
+    100% {
+        text-shadow: 0 0 10px #00d1b2, 0 0 20px #00d1b2, 0 0 30px #00d1b2, 0 0 40px #00d1b2;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Input Section -->
+    <div class="sidebar">
+        <h3>Enter a Topic</h3>
+        <input type="text" id="title" placeholder="Enter a topic...">
+        <button id="generate-btn">Generate Content</button>
+
+        <div class="roadmap">
+            <h3>Roadmap</h3>
+            <ul id="roadmap-list">
+                <!-- Dynamic Roadmap Data -->
+            </ul>
+        </div>
+   
+    </div>
+
+    <!-- Main Content (Video, Roadmap, Summary) -->
+    <div class="main-content">
+        <h1 id="topic-title">Topic Content</h1>
+
+        <!-- Video Section -->
+        <div class="video-section">
+            <iframe id="video-frame" src="" allowfullscreen></iframe>
+        </div>
+
+        <!-- Roadmap Section -->
+       
+
+        <!-- Summary Section -->
+        <div class="summary">
+            <h3>Summary</h3>
+            <p id="summary-text">Summary will appear here...</p>
+        </div>
+    </div>
+
+    <!-- Quiz Section -->
+    <div class="right-sidebar">
+        <h3>Quiz</h3>
+        <ul class="quiz-list" id="quiz-list">
+            <!-- Dynamic Quiz Data -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const generateBtn = document.getElementById('generate-btn');
+        
+        generateBtn.addEventListener('click', function() {
+            const title = document.getElementById('title').value;
+
+            // Fetch data from backend using the title
+            fetch('/generate_content2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+
+                // Populate video
+                const videoUrl = data.video_link.replace("watch?v=", "embed/");
+                document.getElementById('video-frame').src = videoUrl;
+
+                // Populate roadmap
+                const roadmapList = document.getElementById('roadmap-list');
+                roadmapList.innerHTML = '';  // Clear previous data
+                data.roadmap.forEach(item => {
+                    let li = document.createElement('li');
+                    li.textContent = item;
+                    roadmapList.appendChild(li);
+                });
+
+                // Populate summary
+                document.getElementById('summary-text').textContent = data.summary;
+
+                // Populate quiz
+                const quizList = document.getElementById('quiz-list');
+                quizList.innerHTML = '';  // Clear previous data
+                data.quiz.forEach((q, index) => {
+                    let li = document.createElement('li');
+                    li.innerHTML = `<strong>Q${index + 1}: ${q.question}</strong><br>`;
+                    q.options.forEach(option => {
+                        li.innerHTML += `<input type="radio" name="q${index}" value="${option}"> ${option}<br>`;
+                    });
+                    quizList.appendChild(li);
+                });
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

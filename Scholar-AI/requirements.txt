@@ -1,0 +1,12 @@
+Flask
+PyPDF2
+reportlab
+IPython
+google-generativeai
+Pillow
+python-docx
+gtts
+beautifulsoup4
+requests
+pandas
+matplotlib
