@@ -1,38 +1,19 @@
-AI Student Hackathon - Project Submission
+## Features
 
-Welcome to the submission day of our AI Student Hackathon! 🚀
+1. **Note-taking with Speech Recognition**: Converts spoken words into written notes, assisting students with hearing and hand disabilities.
+  
+2. **Voice Navigation**: Enables students with visual and hand disabilities to navigate the platform using voice commands.
 
-We’re thrilled to have you participate and can't wait to see your innovative AI apps. Please follow the instructions below to submit your project for evaluation.
+3. **Code Generator**: Automatically generates frontend webpages to aid students in coding and project tasks.
 
-Submission Details
+4. **Quiz Generator**: Engages students with interactive quizzes, providing rewards for correct answers.
 
-Submit the following information via the provided Google Form for us to access your AI applications:
+5. **Educational Chatbot**: Provides instant answers and support through an AI-driven chatbot, enhancing learning experiences.
 
-Team Name: Your team's unique name.
+6. **Web Summary using AI**: Summarizes web content for efficient learning, saving time and effort.
 
-App Name: The name of your AI application.
+7. **Audio-GPT**: Supports audio-based learning and interaction, catering to auditory learners.
 
-App Description: A brief overview of what your app does and its core features.
+8. **Scan to Solve**: Allows students to scan math or science problems and get instant solutions, facilitating quick learning.
 
-GitHub PR Link: The link to your Pull Request (PR) in the project repository.
-
-App Link: A link to the deployed version of your app.
-
-Loom Video: A demo video link showing your app in action.
-
-
-For detailed submission guidelines, please refer to the last doubt session recording: https://www.buildfastwithai.com/hackathon.
-
-Important Links:
-
-Google Form for Submission :- https://forms.gle/JVXGjYhxtdAhTGgm6
-
-GitHub Project Submission Link :- https://shorturl.at/zgs3m
-
-Deadline
-⏰ Submission Deadline: Tonight, 11:59 PM. Make sure all components are submitted on time to ensure your project is evaluated.
-
-Good luck, and we look forward to reviewing your amazing projects!
----
-Hackathon Organizers
-Build Fast with AI
+9. **Learning Path Generator (Roadmap, Quiz, YouTube Summarizer)**: Creates personalized learning pathways, incorporates quizzes for engagement, and summarizes YouTube videos for visual learners.
